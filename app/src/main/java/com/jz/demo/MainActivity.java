@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.jz.autobanner.AutoBannerView;
@@ -47,25 +48,22 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(new BaseAdapter());
 
         autoBannerView = findViewById(R.id.autoBanner);
-        autoBannerView.setAutoPlay(false);
-
         List<String> images = new ArrayList<>();
         images.add("http://ww1.sinaimg.cn/large/0065oQSqly1frsllc19gfj30k80tfah5.jpg");
         images.add("http://ww1.sinaimg.cn/large/0065oQSqly1frslibvijrj30k80q678q.jpg");
         images.add("http://ww1.sinaimg.cn/large/0065oQSqly1frrifts8l5j30j60ojq6u.jpg");
         images.add("http://ww1.sinaimg.cn/large/0065oQSqly1frjd77dt8zj30k80q2aga.jpg");
-        images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1527915111732&di=ae478dd0be933d0be66088844cd073d6&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0170215739312e6ac72580ed89d7f7.jpg");
-        images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1527915146245&di=2e231ab2c59c2814db76aa12ce1f629c&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01801e55c36e296ac7255808749841.jpg");
-        images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528509895&di=541a36acf742b19e551d9f393c0bdfef&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01c54d582930eba84a0e282b53c730.png");
         autoBannerView.setImageResources(images, new AutoBannerView.AutoBannerViewListener() {
             @Override
             public void displayImage(String imageURL, ImageView imageView) {
+                //显示图片方法,图片框架自己选~ 这里使用的是Glide
                 Glide.with(mActivity).load(imageURL).into(imageView);
             }
 
             @Override
             public void onImageClick(int position, View imageView) {
-
+                //点击图片的事件...
+                Toast.makeText(mActivity, "点击了位置" + position, Toast.LENGTH_SHORT).show();
             }
         });
     }
