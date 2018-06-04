@@ -23,7 +23,7 @@ AutoBanner是一个简单实现自动无限轮播图的自定义banner控件。
 
 效果如下图：
 
-![](./pic/banner1.jpg)
+![](./pic/banner1.jpg )
 ![](./pic/banner2.jpg)
 ![](./pic/banner3.jpg)
 
