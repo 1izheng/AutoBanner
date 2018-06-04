@@ -83,7 +83,24 @@ dependencies{
             }
         });
 
+
+        //可选
+       @Override
+    	protected void onPause() {
+        	super.onPause();
+        	autoBannerView.stop();
+    	}
+
+    	@Override
+	    protected void onResume() {
+        	super.onResume();
+        	autoBannerView.start();
+    	}
+
+
 ```
+
+
 
 over~ 需要扩展的可以下载自己扩展，类很简单~
 
