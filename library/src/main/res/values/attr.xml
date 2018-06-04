@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AutoBanner">
+        <attr name="delay_time" format="integer"/>
+        <attr name="auto_play" format="boolean"/>
+        <attr name="indicator_size" format="dimension"/>
+        <attr name="indicator_margin" format="dimension"/>
+        <attr name="num_indicator_textsize" format="dimension"/>
+        <attr name="num_indicator_textcolor" format="color|reference"/>
+        <attr name="indicator_drawable_selected" format="reference"/>
+        <attr name="indicator_drawable_unselected" format="reference"/>
+        <attr name="indicator_layout_height" format="dimension"/>
+        <attr name="indicator_layout_background" format="color|reference"/>
+        <attr name="indicator_type" format="enum">
+            <enum name="image" value="0"/>
+            <enum name="number" value="1"/>
+        </attr>
+
+        <attr name="indicator_gravity" format="enum">
+            <enum name="left" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="right" value="2"/>
+        </attr>
+    </declare-styleable>
+</resources>
