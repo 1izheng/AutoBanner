@@ -13,19 +13,33 @@
         android:layout_height="wrap_content"
         >
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimaryDark"
-            app:layout_scrollFlags="scroll|enterAlways"
-            />
 
-        <com.jz.autobanner.AutoBannerView
-            android:id="@+id/autoBanner"
+        <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            />
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="@color/colorPrimaryDark"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginEnd="64dp"
+            >
+
+            <com.jz.autobanner.AutoBannerView
+                android:id="@+id/autoBanner"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:layout_collapseMode="parallax"
+                />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimaryDark"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+                />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
 
     </android.support.design.widget.AppBarLayout>
 

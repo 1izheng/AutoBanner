@@ -231,9 +231,9 @@ public class AutoBannerView extends LinearLayout {
 
             mImageViews[i] = mImageView;
             if (i == 0) {
-                mImageViews[i].setBackgroundResource(R.drawable.indicator_unselected);
-            } else {
                 mImageViews[i].setBackgroundResource(R.drawable.indicator_selected);
+            } else {
+                mImageViews[i].setBackgroundResource(R.drawable.indicator_unselected);
             }
             mGroup.addView(mImageViews[i]);
         }
