@@ -27,6 +27,8 @@
                 android:id="@+id/autoBanner"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                app:indicator_size="8dp"
+                app:indicator_drawable_unselected="@drawable/banner_indicator_selected"
                 app:layout_collapseMode="parallax"
                 />
 
