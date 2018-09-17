@@ -1,4 +1,4 @@
-package com.jz.autobanner;
+package com.yjz.banner;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

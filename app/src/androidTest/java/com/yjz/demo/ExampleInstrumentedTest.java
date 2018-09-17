@@ -1,4 +1,4 @@
-package com.jz.demo;
+package com.yjz.demo;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

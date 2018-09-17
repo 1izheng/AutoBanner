@@ -6,11 +6,11 @@
         <attr name="indicator_size" format="dimension"/>
         <attr name="indicator_margin" format="dimension"/>
         <attr name="num_indicator_textsize" format="dimension"/>
-        <attr name="num_indicator_textcolor" format="color|reference"/>
+        <attr name="num_indicator_textcolor" format="color"/>
         <attr name="indicator_drawable_selected" format="reference"/>
         <attr name="indicator_drawable_unselected" format="reference"/>
         <attr name="indicator_layout_height" format="dimension"/>
-        <attr name="indicator_layout_background" format="color|reference"/>
+        <attr name="indicator_layout_background" format="reference|color"/>
         <attr name="indicator_type" format="enum">
             <enum name="image" value="0"/>
             <enum name="number" value="1"/>

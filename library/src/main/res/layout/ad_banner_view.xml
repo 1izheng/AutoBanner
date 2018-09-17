@@ -23,7 +23,7 @@
     <LinearLayout
         android:id="@+id/ly_num_indicator"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:paddingLeft="8dp"

@@ -1,4 +1,4 @@
-package com.jz.demo;
+package com.yjz.banner;
 
 import org.junit.Test;
 

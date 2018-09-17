@@ -1,4 +1,4 @@
-package com.jz.autobanner;
+package com.yjz.banner;
 
 
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +22,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 无限循环banner,支持左右滑动,基于ViewPager实现
+ *
+ * @author lizheng
+ *         created at 2018/9/17 上午11:55
+ */
+public class AutoBannerView<T> extends LinearLayout {
 
-public class AutoBannerView extends LinearLayout {
     private Context mContext;
 
     /**
@@ -62,7 +67,7 @@ public class AutoBannerView extends LinearLayout {
     /**
      * 数字指示器textColor
      */
-    private int numIndicatorTextColor = android.R.color.white;
+    private int numIndicatorTextColor;
     /**
      * 选中图片指示器样式
      */
@@ -78,7 +83,7 @@ public class AutoBannerView extends LinearLayout {
     /**
      * 指示器父布局背景 默认透明
      */
-    private int indicatorLayoutBackground = android.R.color.transparent;
+    private int indicatorLayoutBackground;
 
     /**
      * 图片轮播视图
@@ -147,6 +152,7 @@ public class AutoBannerView extends LinearLayout {
 
     public AutoBannerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        mContext = context;
         initAttrs(context, attrs);
         init(context);
     }
@@ -165,17 +171,17 @@ public class AutoBannerView extends LinearLayout {
         indicatorSelectedResId = typedArray.getResourceId(R.styleable.AutoBanner_indicator_drawable_selected, R.drawable.indicator_selected);
         indicatorUnSelectedResId = typedArray.getResourceId(R.styleable.AutoBanner_indicator_drawable_unselected, R.drawable.indicator_unselected);
         numIndicatorTextSize = typedArray.getDimensionPixelSize(R.styleable.AutoBanner_num_indicator_textsize, 15);
-        numIndicatorTextColor = typedArray.getResourceId(R.styleable.AutoBanner_num_indicator_textcolor, android.R.color.white);
         indicatorLayoutHeight = typedArray.getDimensionPixelSize(R.styleable.AutoBanner_indicator_layout_height, dp2px(36));
-        indicatorLayoutBackground = typedArray.getResourceId(R.styleable.AutoBanner_indicator_layout_background, android.R.color.transparent);
+
+        numIndicatorTextColor = typedArray.getColor(R.styleable.AutoBanner_num_indicator_textcolor, ContextCompat.getColor(context, android.R.color.white));
+        indicatorLayoutBackground = typedArray.getColor(R.styleable.AutoBanner_indicator_layout_background,ContextCompat.getColor(context, android.R.color.transparent));
 
         typedArray.recycle();
     }
 
 
     private void init(Context context) {
-        mContext = context;
-        LayoutInflater.from(context).inflate(R.layout.ad_banner_view, this);
+        View.inflate(context, R.layout.ad_banner_view, this);
         mAdvPager = (ViewPager) findViewById(R.id.adv_pager);
         mAdvPager.addOnPageChangeListener(new GuidePageChangeListener());
         mAdvPager.setOnTouchListener(new OnTouchListener() {
@@ -197,6 +203,13 @@ public class AutoBannerView extends LinearLayout {
         mGroup = (LinearLayout) findViewById(R.id.ly_img_indicator);
         tvGroup = (LinearLayout) findViewById(R.id.ly_num_indicator);
         tvIndicator = (TextView) findViewById(R.id.tv_indicator);
+
+        //指示器类型
+        if (indicatorType == 0) {
+            showImgIndicator();
+        } else {
+            showNumIndicator();
+        }
     }
 
     /**
@@ -205,7 +218,7 @@ public class AutoBannerView extends LinearLayout {
      * @param imageUrlList
      * @param autoBannerViewListener
      */
-    public void setImageResources(List<String> imageUrlList, AutoBannerViewListener autoBannerViewListener) {
+    public void setImageResources(List<T> imageUrlList, AutoBannerViewListener autoBannerViewListener) {
 
         if (imageUrlList != null && imageUrlList.size() > 0) {
             this.setVisibility(View.VISIBLE);
@@ -249,13 +262,6 @@ public class AutoBannerView extends LinearLayout {
      * 图片轮播(手动控制自动轮播与否，便于资源控制）
      */
     public void start() {
-        //指示器类型
-        if (indicatorType == 0) {
-            showImgIndicator();
-        } else {
-            showNumIndicator();
-        }
-
         startImageTimerTask();
     }
 
@@ -270,7 +276,9 @@ public class AutoBannerView extends LinearLayout {
      * 图片滚动任务
      */
     private void startImageTimerTask() {
-        if (!autoPlay) return;
+        if (!autoPlay) {
+            return;
+        }
         stopImageTimerTask();
         if (mImageViews != null && mImageViews.length > 1) {
             // 图片滚动
@@ -328,6 +336,7 @@ public class AutoBannerView extends LinearLayout {
         lps.width = LayoutParams.MATCH_PARENT;
         lps.height = indicatorLayoutHeight;
         mGroup.setLayoutParams(lps);
+        mGroup.setBackgroundColor(indicatorLayoutBackground);
         if (indicatorGravity == 0) {
             mGroup.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         } else if (indicatorGravity == 1) {
@@ -336,8 +345,6 @@ public class AutoBannerView extends LinearLayout {
             mGroup.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
         }
 
-        mGroup.setBackgroundResource(indicatorLayoutBackground);
-
     }
 
     /**
@@ -345,13 +352,15 @@ public class AutoBannerView extends LinearLayout {
      */
     private void showNumIndicator() {
         tvGroup.setVisibility(View.VISIBLE);
-        tvIndicator.setTextColor(ContextCompat.getColor(mContext, numIndicatorTextColor));
-        tvIndicator.setTextSize(TypedValue.COMPLEX_UNIT_PX, numIndicatorTextSize);
+        mGroup.setVisibility(GONE);
+        tvIndicator.setTextColor(numIndicatorTextColor);
+        tvIndicator.setTextSize(TypedValue.COMPLEX_UNIT_DIP, numIndicatorTextSize);
 
         RelativeLayout.LayoutParams lps = (RelativeLayout.LayoutParams) tvGroup.getLayoutParams();
         lps.width = RelativeLayout.LayoutParams.MATCH_PARENT;
         lps.height = indicatorLayoutHeight;
-        tvGroup.setBackgroundResource(indicatorLayoutBackground);
+        tvGroup.setLayoutParams(lps);
+        tvGroup.setBackgroundColor(indicatorLayoutBackground);
 
         if (indicatorGravity == 0) {
             tvIndicator.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
@@ -360,7 +369,6 @@ public class AutoBannerView extends LinearLayout {
         } else {
             tvIndicator.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
         }
-        mGroup.setVisibility(View.GONE);
     }
 
     /**
@@ -389,8 +397,9 @@ public class AutoBannerView extends LinearLayout {
     private final class GuidePageChangeListener implements OnPageChangeListener {
         @Override
         public void onPageScrollStateChanged(int state) {
-            if (state == ViewPager.SCROLL_STATE_IDLE)
+            if (state == ViewPager.SCROLL_STATE_IDLE) {
                 startImageTimerTask();
+            }
         }
 
         @Override
@@ -421,7 +430,7 @@ public class AutoBannerView extends LinearLayout {
         /**
          * 图片资源列表
          */
-        private List<String> mAdList = new ArrayList<>();
+        private List<T> mAdList = new ArrayList<>();
 
         /**
          * 广告图片点击监听
@@ -430,7 +439,7 @@ public class AutoBannerView extends LinearLayout {
 
         private Context mContext;
 
-        public AutoBannerAdapter(Context context, List<String> adList, AutoBannerViewListener autoBannerViewListener) {
+        public AutoBannerAdapter(Context context, List<T> adList, AutoBannerViewListener autoBannerViewListener) {
             this.mContext = context;
             this.mAdList = adList;
             mAutoBannerViewListener = autoBannerViewListener;
@@ -449,7 +458,7 @@ public class AutoBannerView extends LinearLayout {
 
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-            String imageUrl = mAdList.get(position % mAdList.size());
+            T imageUrl = mAdList.get(position % mAdList.size());
             ImageView imageView;
             if (mImageViewCacheList.isEmpty()) {
                 imageView = new ImageView(mContext);
@@ -487,14 +496,14 @@ public class AutoBannerView extends LinearLayout {
      *
      * @author minking
      */
-    public interface AutoBannerViewListener {
+    public interface AutoBannerViewListener<T> {
         /**
          * 加载图片资源
          *
          * @param imageUrl
          * @param imageView
          */
-        void displayImage(String imageUrl, ImageView imageView);
+        void displayImage(T imageUrl, ImageView imageView);
 
         /**
          * 单击图片事件

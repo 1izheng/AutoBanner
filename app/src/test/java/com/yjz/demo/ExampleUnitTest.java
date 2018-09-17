@@ -1,4 +1,4 @@
-package com.jz.autobanner;
+package com.yjz.demo;
 
 import org.junit.Test;
 
