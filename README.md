@@ -40,7 +40,7 @@ AutoBanner是一个简单实现自动无限轮播图的自定义banner控件。
 
 ```
 dependencies{
-    compile 'com.1izheng:AutoBanner:1.0'
+    compile 'com.yjz:AutoBanner:1.0.2'
 }
 ```
 2.添加权限 AndroidManifest.xml (显示网络图片需要Internet)
