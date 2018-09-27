@@ -69,7 +69,7 @@ dependencies{
         images.add("http://ww1.sinaimg.cn/large/0065oQSqly1frslibvijrj30k80q678q.jpg");
         images.add("http://ww1.sinaimg.cn/large/0065oQSqly1frrifts8l5j30j60ojq6u.jpg");
         images.add("http://ww1.sinaimg.cn/large/0065oQSqly1frjd77dt8zj30k80q2aga.jpg");
-        autoBannerView.setImageResources(images, new AutoBannerView.AutoBannerViewListener() {
+        autoBannerView.setImageResources(images, new AutoBannerView.AutoBannerViewListener<String>() {
             @Override
             public void displayImage(String imageURL, ImageView imageView) {
                 //显示图片方法,图片框架自己选~ 这里使用的是Glide
